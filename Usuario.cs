@@ -24,5 +24,11 @@ namespace Inventario
             SetDinheiro(itemVendido.Preco);
             return itemVendido;
         }
+        internal Item ExcluirItem(int id)
+        {
+            Item itemExcluido = Inventario[id];
+            Inventario.Remove(Inventario[id]);
+            return itemExcluido;
+        }
     }
 }

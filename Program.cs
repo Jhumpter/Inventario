@@ -143,9 +143,27 @@ void VenderItem()
 void ExcluirItem()
 {
     Console.Clear();
-    Console.WriteLine("Ainda não implementado.");
-    Thread.Sleep(2000);
-    MenuInventario();
+    MostrarItens();
+    Console.WriteLine("Digite o ID do item que deseja jogar fora: ");
+    int idItem = int.Parse(Console.ReadLine());
+    if (inventario.Count > idItem && idItem >= 0)
+    {
+        Console.WriteLine("Tem certeza que quer excluir este item? (S/N)");
+        string confirmacao = Console.ReadLine().ToUpper();
+        if (confirmacao != "S")
+        {
+            ExcluirItem();
+        }
+        Console.WriteLine($"Você jogou {usuario.ExcluirItem(idItem).Nome} fora.");
+        Thread.Sleep(2000);
+        MenuInventario();
+    }
+    else
+    {
+        Console.WriteLine("ID inválido. Tente novamente.");
+        Thread.Sleep(2000);
+        ExcluirItem();
+    }
 }
 
 void MenuLojas()
