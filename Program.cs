@@ -20,6 +20,7 @@ void MenuPrincipal()
 {
     Console.Clear();
     Console.WriteLine($"Bem vindo {usuario.Nome}!");
+    Console.WriteLine($"Banco: {usuario.Dinheiro:c}");
     Console.WriteLine("[1] Acessar inventário");
     Console.WriteLine("[2] Acessar lojas");
     Console.WriteLine("[-1] Sair");
@@ -120,8 +121,16 @@ void VenderItem()
     int idItem = int.Parse(Console.ReadLine());
     if (inventario.Count>idItem && idItem>=0)
     {
+        Console.WriteLine("Tem certeza que quer vender este item? (S/N)");
+        string confirmacao = Console.ReadLine().ToUpper();
+        if (confirmacao != "S")
+        {
+            VenderItem();
+        }
         Console.WriteLine($"Você vendeu {usuario.Inventario[idItem].Nome} por {usuario.Inventario[idItem].Preco:c}.");
         usuario.VenderItem(idItem);
+        Thread.Sleep(2000);
+        MenuInventario();
     }
     else
     {
