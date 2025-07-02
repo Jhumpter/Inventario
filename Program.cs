@@ -12,6 +12,8 @@ inventario.Add(blusa);
 inventario.Add(sandalia);
 inventario.Add(oculos);
 Usuario usuario = new Usuario(1000, nome, inventario);
+List<Loja> lojas = new List<Loja>();
+Loja renner = new Loja("Renner", []);
 
 MenuPrincipal();
 void MenuPrincipal()
@@ -78,10 +80,10 @@ void MenuInventario()
         switch (opcao)
         {
             case 1:
-                //VenderItem();
+                VenderItem();
                 break;
             case 2:
-                //ExcluirItem();
+                ExcluirItem();
                 break;
             case 3:
                 MenuPrincipal();
@@ -129,10 +131,39 @@ void VenderItem()
     }
 }
 
+void ExcluirItem()
+{
+    Console.Clear();
+    Console.WriteLine("Ainda não implementado.");
+    Thread.Sleep(2000);
+    MenuInventario();
+}
+
 void MenuLojas()
 {
     Console.Clear();
-    Console.WriteLine("Lojas ainda não implementadas.");
-    Thread.Sleep(2000);
-    MenuPrincipal();
+    //MostrarLojas();
+    Console.WriteLine("Digite o ID da loja que quer visitar ou digite [-1] para voltar para o menu principal:");
+    int opcao;
+    do
+    {
+        try
+        {
+            opcao = int.Parse(Console.ReadLine()!);
+        }
+        catch
+        {
+            opcao = 0;
+        }
+        switch (opcao)
+        {
+            case -1:
+                MenuPrincipal();
+                break;
+            default:
+                opcao = 0;
+                Console.WriteLine("Opção inválida. Tente novamente.");
+                break;
+        }
+    } while (opcao == 0);
 }
