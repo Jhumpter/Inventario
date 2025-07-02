@@ -1,16 +1,38 @@
-﻿MenuPrincipal();
+﻿using Inventario;
+
+Console.WriteLine("Digite seu nome: ");
+string nome = Console.ReadLine();
+Item calca = new Item("Calça Jeans", 79.90f);
+Item blusa = new Item("Blusa de Frio", 99.90f);
+Item sandalia = new Item("Havaiana", 49.90f);
+Item oculos = new Item("Óculos de Sol", 199.90f);
+List<Item> inventario = new List<Item>();
+inventario.Add(calca);
+inventario.Add(blusa);
+inventario.Add(sandalia);
+inventario.Add(oculos);
+Usuario usuario = new Usuario(1000, nome, inventario);
+
+MenuPrincipal();
 void MenuPrincipal()
 {
     Console.Clear();
-    Console.WriteLine("Bem vindo!");
+    Console.WriteLine($"Bem vindo {usuario.Nome}!");
     Console.WriteLine("[1] Acessar inventário");
     Console.WriteLine("[2] Acessar lojas");
     Console.WriteLine("[-1] Sair");
     Console.WriteLine("Digite uma opção: ");
-    int opcao = 0;
+    int opcao;
     do
     {
-        opcao = int.Parse(Console.ReadLine()!);
+        try
+        {
+            opcao = int.Parse(Console.ReadLine()!);
+        }
+        catch
+        {
+            opcao = 0;
+        }
         switch (opcao)
         {
             case 1:
@@ -32,21 +54,27 @@ void MenuPrincipal()
                 break;
         }
     } while (opcao == 0);
-
 }
 
 void MenuInventario()
 {
-    /*Console.Clear();
-    //MostrarItens();
+    Console.Clear();
+    MostrarItens();
     Console.WriteLine("[1] Vender item");
     Console.WriteLine("[2] Excluir item");
     Console.WriteLine("[3] Voltar ao menu principal");
     Console.WriteLine("Digite uma opção: ");
-    int opcao = 0;
+    int opcao;
     do
     {
-        opcao = int.Parse(Console.ReadLine()!);
+        try
+        {
+            opcao = int.Parse(Console.ReadLine()!);
+        }
+        catch
+        {
+            opcao = 0;
+        }
         switch (opcao)
         {
             case 1:
@@ -63,11 +91,42 @@ void MenuInventario()
                 Console.WriteLine("Opção inválida. Tente novamente.");
                 break;
         }
-    } while (opcao == 0);*/
+    } while (opcao == 0);
+}
+
+void MostrarItens()
+{
+    if(usuario.Inventario.Count != 0)
+    {
+        Console.WriteLine($"Inventário de {usuario.Nome}:");
+        Console.WriteLine($"Banco: {usuario.Dinheiro:c}");
+        Console.WriteLine();
+        foreach (Item item in usuario.Inventario)
+        {
+            Console.WriteLine("ID:{0,-3}| Item:{1,-30}| {2:c}", inventario.IndexOf(item), item.Nome, item.Preco);
+        }
+        Console.WriteLine();
+    }
+    
+}
+
+void VenderItem()
+{
     Console.Clear();
-    Console.WriteLine("Inventário ainda não implementado.");
-    Thread.Sleep(2000);
-    MenuPrincipal();
+    MostrarItens();
+    Console.WriteLine("Digite o ID do item que deseja vender: ");
+    int idItem = int.Parse(Console.ReadLine());
+    if (inventario.Count>idItem && idItem>=0)
+    {
+        Console.WriteLine($"Você vendeu {usuario.Inventario[idItem].Nome} por {usuario.Inventario[idItem].Preco:c}.");
+        usuario.VenderItem(idItem);
+    }
+    else
+    {
+        Console.WriteLine("ID inválido. Tente novamente.");
+        Thread.Sleep(2000);
+        VenderItem();
+    }
 }
 
 void MenuLojas()
