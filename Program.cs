@@ -63,8 +63,11 @@ void MenuInventario()
 {
     Console.Clear();
     MostrarItens();
-    Console.WriteLine("[1] Vender item");
-    Console.WriteLine("[2] Excluir item");
+    if (usuario.Inventario.Count != 0)
+    {
+        Console.WriteLine("[1] Vender item");
+        Console.WriteLine("[2] Excluir item");
+    }
     Console.WriteLine("[3] Voltar ao menu principal");
     Console.WriteLine("Digite uma opção: ");
     int opcao;
@@ -110,15 +113,28 @@ void MostrarItens()
         }
         Console.WriteLine();
     }
-    
+    else
+    {
+        Console.WriteLine("Seu inventário está vazio.");
+    }
 }
 
 void VenderItem()
 {
     Console.Clear();
     MostrarItens();
-    Console.WriteLine("Digite o ID do item que deseja vender: ");
-    int idItem = int.Parse(Console.ReadLine());
+    Console.WriteLine("Digite o ID do item que deseja vender (-1 para cancelar): ");
+    int idItem = -1;
+    try
+    {
+        idItem = int.Parse(Console.ReadLine());
+    }
+    catch
+    {
+        Console.WriteLine("ID inválido. Tente novamente.");
+        Thread.Sleep(2000);
+        ExcluirItem();
+    }
     if (inventario.Count>idItem && idItem>=0)
     {
         Console.WriteLine("Tem certeza que quer vender este item? (S/N)");
@@ -130,6 +146,10 @@ void VenderItem()
         Console.WriteLine($"Você vendeu {usuario.Inventario[idItem].Nome} por {usuario.Inventario[idItem].Preco:c}.");
         usuario.VenderItem(idItem);
         Thread.Sleep(2000);
+        MenuInventario();
+    }
+    else if (idItem == -1)
+    {
         MenuInventario();
     }
     else
@@ -144,8 +164,18 @@ void ExcluirItem()
 {
     Console.Clear();
     MostrarItens();
-    Console.WriteLine("Digite o ID do item que deseja jogar fora: ");
-    int idItem = int.Parse(Console.ReadLine());
+    Console.WriteLine("Digite o ID do item que deseja jogar fora (-1 para cancelar): ");
+    int idItem = -1;
+    try
+    {
+        idItem = int.Parse(Console.ReadLine());
+    }
+    catch
+    {
+        Console.WriteLine("ID inválido. Tente novamente.");
+        Thread.Sleep(2000);
+        ExcluirItem();
+    }
     if (inventario.Count > idItem && idItem >= 0)
     {
         Console.WriteLine("Tem certeza que quer excluir este item? (S/N)");
@@ -156,6 +186,10 @@ void ExcluirItem()
         }
         Console.WriteLine($"Você jogou {usuario.ExcluirItem(idItem).Nome} fora.");
         Thread.Sleep(2000);
+        MenuInventario();
+    }
+    else if (idItem == -1)
+    {
         MenuInventario();
     }
     else
@@ -193,4 +227,9 @@ void MenuLojas()
                 break;
         }
     } while (opcao == 0);
+}
+
+void MostararLojas()
+{
+    
 }
