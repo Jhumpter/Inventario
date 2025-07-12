@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel;
+
 namespace Inventario
 {
     internal class Usuario
@@ -29,6 +31,19 @@ namespace Inventario
             Item itemExcluido = Inventario[id];
             Inventario.Remove(Inventario[id]);
             return itemExcluido;
+        }
+        internal void ComprarItem(Item item)
+        {
+            if (item.Preco <= dinheiro)
+            {
+                Inventario.Add(item);
+                SetDinheiro(-item.Preco);
+                Console.WriteLine($"Você comprou {item.Nome} por {item.Preco:c}.");
+            }
+            else
+            {
+                Console.WriteLine("Dinheiro insuficiente para comprar o item.");
+            }
         }
     }
 }
